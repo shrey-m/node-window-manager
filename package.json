@@ -9,7 +9,7 @@
     "watch": "tsc --watch",
     "rebuild": "node-gyp rebuild",
     "rebuild-dev": "npm run rebuild -- --debug",
-    "prepublishOnly": "npm run rebuild",
+    "prepublishOnly": "npm run rebuild"
   },
   "repository": {
     "type": "git",
