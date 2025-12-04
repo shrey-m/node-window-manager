@@ -7,11 +7,10 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "install": "npm run rebuild",
     "rebuild": "node-gyp rebuild",
     "rebuild-dev": "npm run rebuild -- --debug",
     "prepublishOnly": "npm run rebuild",
-    "prepare": "npm run build"
+    "prepare": "tsc"
   },
   "repository": {
     "type": "git",
