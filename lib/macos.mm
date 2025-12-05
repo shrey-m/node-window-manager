@@ -115,9 +115,9 @@ Napi::Array getWindows(const Napi::CallbackInfo &info) {
     NSNumber *windowNumber = info[(id)kCGWindowNumber];
 
     auto app = [NSRunningApplication runningApplicationWithProcessIdentifier: [ownerPid intValue]];
-    auto path = app ? [app.bundleURL.path UTF8String] : "";
+    const char* path = [app.bundleURL.path UTF8String];
 
-    if (app && path != "") {
+    if (app && path && path[0] != '\0') {
       vec.push_back(Napi::Number::New(env, [windowNumber intValue]));
     }
   }
@@ -174,7 +174,8 @@ Napi::Object initWindow(const Napi::CallbackInfo &info) {
 
     auto obj = Napi::Object::New(env);
     obj.Set("processId", [ownerPid intValue]);
-    obj.Set("path", [app.bundleURL.path UTF8String]);
+    const char* path = [app.bundleURL.path UTF8String];
+    obj.Set("path", path ? path : "");
 
     cacheWindow(handle, [ownerPid intValue]);
 
@@ -193,7 +194,8 @@ Napi::String getWindowTitle(const Napi::CallbackInfo &info) {
 
   if (wInfo) {
     NSString *windowName = wInfo[(id)kCGWindowName];
-    return Napi::String::New(env, [windowName UTF8String]);
+    const char* title = [windowName UTF8String];
+    return Napi::String::New(env, title ? title : "");
   }
 
   return Napi::String::New(env, "");
